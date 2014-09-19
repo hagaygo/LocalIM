@@ -93,12 +93,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LocalIM.Network\LocalIM.Network.csproj">
-      <Project>{fb8bf595-cf77-441d-8e98-01e7df2f31aa}</Project>
-      <Name>LocalIM.Network</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

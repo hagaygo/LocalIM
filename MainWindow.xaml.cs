@@ -31,8 +31,9 @@ namespace LocalIM
             t.Start();
 
             var s = new Sender();
-            System.Threading.Thread.Sleep(2000);
-            s.SendRaw(Encoding.ASCII.GetBytes("hag"));
+
+            var pp = new Packet(Headers.Init.WHO_IS_THERE, "testing נסיון", "192.32.22.111", new byte[] { 1, 2, 3, 5 });
+            s.BroadcastRaw(pp.ToRaw());
         }
 
 
@@ -41,9 +42,10 @@ namespace LocalIM
             var l = Listener.Instance;
             while (System.Threading.Thread.CurrentThread.IsAlive)
             {
-                var b = l.Receive();
+                var b = l.Receive();                
                 if (b.Length > 0)
                 {
+                    var p = new Packet(b);
                 }
             }
             
