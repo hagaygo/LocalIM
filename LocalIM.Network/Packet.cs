@@ -16,6 +16,8 @@ namespace LocalIM.Network
 
         public string UserIdText { get; private set; }
 
+        public string SourceIP { get; private set; }
+
         const int Total_Header_Length = 52;
 
         public Packet(byte[] rawData)
@@ -27,7 +29,8 @@ namespace LocalIM.Network
             UserId = rawData.Skip(12).Take(40).ToArray();
             Data = rawData.Skip(Total_Header_Length).ToArray();
 
-            UserIdText = Encoding.Unicode.GetString(UserId);
+            SourceIP = string.Format("{0}.{1}.{2}.{3}", SourceAddress[0], SourceAddress[1], SourceAddress[2], SourceAddress[3]);
+            UserIdText = Encoding.Unicode.GetString(UserId).Replace("\0", string.Empty);
         }
 
         public Packet(byte[] header, string user, string sourceAddress, byte[] data)
@@ -37,6 +40,8 @@ namespace LocalIM.Network
             UserId =  Encoding.Unicode.GetBytes(user);
             var ip = IPAddress.Parse(sourceAddress);
             SourceAddress = ip.GetAddressBytes();
+
+            SourceIP = sourceAddress;
         }
 
         public byte[] ToRaw()

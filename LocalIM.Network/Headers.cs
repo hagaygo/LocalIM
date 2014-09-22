@@ -14,14 +14,10 @@ namespace LocalIM.Network
             /// broadcast my location to all network 
             /// </summary>
             public static readonly byte[] WHO_IS_THERE = new byte[] { 255, 255, 255, 255 , 0 , 251 , 77 , 22 };
-            /// <summary>
-            /// request PONG Reply
-            /// </summary>
-            public static readonly byte[] PING = new byte[] { 255, 255, 255, 255 , 0 ,251, 78 , 22 };
-            /// <summary>
+                        /// <summary>
             /// respone to a ping request
             /// </summary>
-            public static readonly byte[] PONG = new byte[] { 255, 255, 255, 255, 0, 251, 78, 22 };
+            public static readonly byte[] I_AM_HERE = new byte[] { 255, 255, 255, 255, 0, 251, 78, 22 };
         }
 
         public static class Message

@@ -20,6 +20,28 @@ namespace LocalIM.Network
             _endPoint = new IPEndPoint(IPAddress.Any, PORT);
         }
 
+        string _localIp;
+
+        public string LocalIP
+        {
+            get
+            {
+                if (_localIp == null)
+                {
+                    IPHostEntry host;                    
+                    host = Dns.GetHostEntry(Dns.GetHostName());
+                    foreach (IPAddress ip in host.AddressList)
+                    {
+                        if (ip.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            _localIp = ip.ToString();
+                        }
+                    }                    
+                }
+                return _localIp;
+            }
+        }
+
         public byte[] Receive()
         {            
             return _udpClient.Receive(ref _endPoint);
