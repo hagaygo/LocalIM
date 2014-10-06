@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LocalIM.Network
 {
-    public class Sender
+    public abstract class Sender
     {
         public void BroadcastRaw(byte[] bytes)
         {
@@ -24,12 +24,24 @@ namespace LocalIM.Network
         /// </summary>
         /// <param name="bytes"></param>
         /// <param name="address"></param>
-        public void SendRaw(byte[] bytes,string address)
+        protected void SendRaw(byte[] bytes,string address)
         {
             using (var client = new UdpClient())
             {
                 client.Send(bytes, bytes.Length, address, Listener.PORT);
             }
+        }
+
+        protected void SendMessage(string targetAddress, byte[] message, string myUser)
+        {
+            var pp = new Packet(Headers.Message.MESSAGE, myUser, Listener.Instance.LocalIP, message);
+            SendRaw(pp.ToRaw(), targetAddress);
+        }
+
+        protected void SendConfirmMessage(string targetAddress, byte[] message, string myUser)
+        {
+            var pp = new Packet(Headers.Message.MESSAGE_ACCEPTED, myUser, Listener.Instance.LocalIP, message);
+            SendRaw(pp.ToRaw(), targetAddress);
         }
     }
 }

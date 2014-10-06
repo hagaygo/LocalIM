@@ -1,7 +1,7 @@
 ﻿<Window x:Class="LocalIM.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Local IM" Height="350" Width="525">
     <Grid>
         <TextBlock x:Name="txtBlock" HorizontalAlignment="Left" Margin="87,81,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <Button Content="Broadcast my self" HorizontalAlignment="Left" Margin="263,28,0,0" VerticalAlignment="Top" Width="106" Click="Button_Click"/>

@@ -26,11 +26,16 @@ namespace LocalIM
         public MainWindow()
         {
             InitializeComponent();
-
+            DataContext = new MainViewModel();
 
             var ts = new System.Threading.ThreadStart(ListenerAction);
             var t = new System.Threading.Thread(ts) { IsBackground = true };
             t.Start();            
+        }
+
+        MainViewModel ViewModel
+        {
+            get { return (MainViewModel)DataContext; }
         }
 
         public void DataReceived(Packet p)
@@ -39,21 +44,29 @@ namespace LocalIM
                 return; // ignore my self
 
             if (StructuralComparisons.StructuralEqualityComparer.Equals(p.Header ,Headers.Init.WHO_IS_THERE))
-            {
+            {                
                 var pp = new Packet(Headers.Init.I_AM_HERE, txtMyUser.Text, Listener.Instance.LocalIP, new byte[] { 0 });
-                var s = new Sender();
+                var s = new MySender(ViewModel.UserName);
                 s.BroadcastRaw(pp.ToRaw());
             }
             else
                 if (StructuralComparisons.StructuralEqualityComparer.Equals(p.Header, Headers.Init.I_AM_HERE))
                 {
-                    lstUsers.Items.Add(p.UserIdText);
+                    ViewModel.CheckNewContact(p.UserIdText, p.SourceIP);                    
                 }
                 else
                     if (StructuralComparisons.StructuralEqualityComparer.Equals(p.Header, Headers.Message.MESSAGE))
                     {
-                        lstMessages.Items.Add(Encoding.Unicode.GetString(p.Data));
+                        var guidBytes = p.Data.Take(16).ToArray();
+                        var messageBytes = p.Data.Skip(16).ToArray();
+                        ViewModel.GotMessage(p.UserIdText, p.SourceIP, Encoding.Unicode.GetString(messageBytes), new Guid(guidBytes));                        
                     }
+                    else
+                        if (StructuralComparisons.StructuralEqualityComparer.Equals(p.Header, Headers.Message.MESSAGE_ACCEPTED))
+                        {
+                            var guidBytes = p.Data.Take(16).ToArray();
+                            ViewModel.GotMessageConfirm(new Guid(guidBytes));
+                        }
         }
 
 
@@ -75,7 +88,7 @@ namespace LocalIM
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var s = new Sender();
+            var s = new MySender(txtMyUser.Text);
 
             var pp = new Packet(Headers.Init.WHO_IS_THERE, txtMyUser.Text, Listener.Instance.LocalIP, new byte[] { 0 });
             s.BroadcastRaw(pp.ToRaw());
@@ -83,9 +96,8 @@ namespace LocalIM
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            var s = new Sender();
-            var pp = new Packet(Headers.Message.MESSAGE, txtMyUser.Text, Listener.Instance.LocalIP, Encoding.Unicode.GetBytes(txtMessage.Text));
-            s.SendRaw(pp.ToRaw(), "192.168.200.10");
+            var s = new MySender(txtMyUser.Text);
+            s.SendMessage("192.168.200.10", txtMessage.Text);
         }
     }
 }
