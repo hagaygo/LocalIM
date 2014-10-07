@@ -16,6 +16,7 @@ namespace LocalIM.Model
     public class IncomingMessage : Message
     {
         public bool ConfirmSent { get; set; }
+        public bool IsRead { get; set; }
     }
 
     public class OutgoingMessage : Message

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalIM", "LocalIM.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalIM.Network", "LocalIM.Network\LocalIM.Network.csproj", "{FB8BF595-CF77-441D-8E98-01E7DF2F31AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalIM.Tester", "LocalIM.Tester\LocalIM.Tester.csproj", "{4978483B-C3D4-491D-9A1E-68383E26E5B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{FB8BF595-CF77-441D-8E98-01E7DF2F31AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB8BF595-CF77-441D-8E98-01E7DF2F31AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB8BF595-CF77-441D-8E98-01E7DF2F31AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4978483B-C3D4-491D-9A1E-68383E26E5B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4978483B-C3D4-491D-9A1E-68383E26E5B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4978483B-C3D4-491D-9A1E-68383E26E5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4978483B-C3D4-491D-9A1E-68383E26E5B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

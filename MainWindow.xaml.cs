@@ -28,14 +28,23 @@ namespace LocalIM
             InitializeComponent();
             DataContext = new MainViewModel();
 
-            var ts = new System.Threading.ThreadStart(ListenerAction);
-            var t = new System.Threading.Thread(ts) { IsBackground = true };
-            t.Start();            
+            InitListener();
         }
+
+        const string MyUsername = "My User";
 
         MainViewModel ViewModel
         {
             get { return (MainViewModel)DataContext; }
+        }
+
+        #region network related
+
+        private void InitListener()
+        {
+            var ts = new System.Threading.ThreadStart(ListenerAction);
+            var t = new System.Threading.Thread(ts) { IsBackground = true };
+            t.Start();
         }
 
         public void DataReceived(Packet p)
@@ -45,9 +54,9 @@ namespace LocalIM
 
             if (StructuralComparisons.StructuralEqualityComparer.Equals(p.Header ,Headers.Init.WHO_IS_THERE))
             {                
-                var pp = new Packet(Headers.Init.I_AM_HERE, txtMyUser.Text, Listener.Instance.LocalIP, new byte[] { 0 });
-                var s = new MySender(ViewModel.UserName);
-                s.BroadcastRaw(pp.ToRaw());
+                //var pp = new Packet(Headers.Init.I_AM_HERE, txtMyUser.Text, Listener.Instance.LocalIP, new byte[] { 0 });
+                //var s = new MySender(ViewModel.UserName);
+                //s.BroadcastRaw(pp.ToRaw());
             }
             else
                 if (StructuralComparisons.StructuralEqualityComparer.Equals(p.Header, Headers.Init.I_AM_HERE))
@@ -82,22 +91,10 @@ namespace LocalIM
                     var p = new Packet(b);
                     Dispatcher.Invoke(() => { DataReceived(p); });
                 }
+                System.Threading.Thread.Sleep(50);
             }
-            
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var s = new MySender(txtMyUser.Text);
-
-            var pp = new Packet(Headers.Init.WHO_IS_THERE, txtMyUser.Text, Listener.Instance.LocalIP, new byte[] { 0 });
-            s.BroadcastRaw(pp.ToRaw());
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            var s = new MySender(txtMyUser.Text);
-            s.SendMessage("192.168.200.10", txtMessage.Text);
-        }
+        #endregion
     }
 }
