@@ -35,7 +35,10 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <DockPanel Height="30">
+                            <DockPanel Height="30" Background="Transparent">
+                                <DockPanel.InputBindings>
+                                    <MouseBinding Command="{Binding ShowContactChatCommand}" MouseAction="LeftDoubleClick"/>
+                                </DockPanel.InputBindings>
                                 <!--<TextBlock Text="{Binding MessagesCount}" ToolTip="Total Messages" Margin="10,0" VerticalAlignment="Center" DockPanel.Dock="Right"/>-->
                                 <TextBlock Text="{Binding UnreadMessagesCount}" ToolTip="Unread Messages" FontWeight="Bold" Margin="10,0" VerticalAlignment="Center" DockPanel.Dock="Right">
                                     <TextBlock.Style>

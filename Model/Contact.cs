@@ -1,10 +1,12 @@
-﻿using System;
+﻿using LocalIM.Command;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace LocalIM.Model
 {
@@ -13,13 +15,14 @@ namespace LocalIM.Model
         public Contact()
         {
             _messages = new List<Message>();
+            ShowContactChatCommand = new ShowChatCommand(this);
         }
 
         public string Username { get; set; }
         public string Address { get; set; }
 
         DateTime _lastAction;
-
+        
         public DateTime LastAction 
         {
             get { return _lastAction; }
@@ -35,6 +38,8 @@ namespace LocalIM.Model
         }
         List<Message> _messages { get; set; }
 
+        public ICommand ShowContactChatCommand { get; private set; }
+
         public ReadOnlyCollection<Message> Messages
         {
             get { return _messages.AsReadOnly(); }
@@ -46,6 +51,7 @@ namespace LocalIM.Model
             LastAction = DateTime.Now;
             if (PropertyChanged != null)
             {
+                PropertyChanged(this, new PropertyChangedEventArgs("Messages"));
                 PropertyChanged(this, new PropertyChangedEventArgs("MessagesCount"));
                 if (m is IncomingMessage && !((IncomingMessage)m).IsRead)
                     PropertyChanged(this, new PropertyChangedEventArgs("UnreadMessagesCount"));

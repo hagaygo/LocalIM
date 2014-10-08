@@ -17,7 +17,7 @@ namespace LocalIM
             Contacts = new ObservableCollection<Contact>();
             Contacts.CollectionChanged += Contacts_CollectionChanged;
         }
-
+        
         void Contacts_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (PropertyChanged != null)
