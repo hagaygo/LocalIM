@@ -17,7 +17,22 @@ namespace LocalIM.Model
 
         public string Username { get; set; }
         public string Address { get; set; }
-        public DateTime LastAction { get; set; }
+
+        DateTime _lastAction;
+
+        public DateTime LastAction 
+        {
+            get { return _lastAction; }
+            set
+            {
+                if (_lastAction != value)
+                {
+                    _lastAction = value;
+                    NotifyContactState();
+                }
+                    
+            }
+        }
         List<Message> _messages { get; set; }
 
         public ReadOnlyCollection<Message> Messages
@@ -28,11 +43,13 @@ namespace LocalIM.Model
         public void AddMessage(Message m)
         {
             _messages.Add(m);
+            LastAction = DateTime.Now;
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs("MessagesCount"));
                 if (m is IncomingMessage && !((IncomingMessage)m).IsRead)
                     PropertyChanged(this, new PropertyChangedEventArgs("UnreadMessagesCount"));
+                NotifyContactState();
             }
         }
 
@@ -54,6 +71,61 @@ namespace LocalIM.Model
             }
         }
 
+        public void MarkAsRead(IncomingMessage msg)
+        {
+            msg.IsRead = true;
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("UnreadMessagesCount"));
+            }
+        }
+
+        public void CheckActivity()
+        {
+#if DEBUG
+            if ((DateTime.Now - LastAction).TotalSeconds < 5)
+#else
+            if ((DateTime.Now - LastAction).TotalSeconds < 30)
+#endif
+                return;
+
+            NotifyContactState();
+        }
+
+        private void NotifyContactState()
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("IsIdle"));
+                PropertyChanged(this, new PropertyChangedEventArgs("IsInActive"));
+            }
+        }
+
+        public bool IsIdle
+        {
+            get 
+            { 
+#if DEBUG
+                return (DateTime.Now - LastAction).TotalSeconds > 8; 
+#else
+                return (DateTime.Now - LastAction).TotalMinutes > 1; 
+#endif
+            }
+        }
+
+        public bool IsInActive
+        {
+            get 
+            { 
+                #if DEBUG
+                return (DateTime.Now - LastAction).TotalSeconds > 16; 
+#else
+                return (DateTime.Now - LastAction).TotalMinutes > 2; 
+#endif
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
+

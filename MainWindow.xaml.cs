@@ -29,6 +29,7 @@ namespace LocalIM
             DataContext = new MainViewModel();
 
             InitListener();
+            new Background.BackgroundWorker(ViewModel);
         }
 
         const string MyUsername = "My User";
