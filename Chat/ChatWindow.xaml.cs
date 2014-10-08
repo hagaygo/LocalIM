@@ -26,7 +26,14 @@ namespace LocalIM.Chat
         {
             InitializeComponent();
             Contact = contact;
-            DataContext = contact;
+            DataContext = contact;            
+        }
+
+        protected override void OnContentRendered(EventArgs e)
+        {
+            base.OnContentRendered(e);
+            Left = Owner.Left + 100;
+            Top = Owner.Top + 80;
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -34,6 +41,11 @@ namespace LocalIM.Chat
             base.OnMouseDown(e);
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

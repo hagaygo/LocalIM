@@ -23,7 +23,6 @@ namespace LocalIM.Chat
 
         static ChatManager _instance;
 
-
         public void ShowChatWindow(Contact contact)
         {
             lock (typeof(ChatManager))
