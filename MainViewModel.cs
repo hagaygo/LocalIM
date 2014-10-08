@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,11 +10,18 @@ using System.Windows.Input;
 
 namespace LocalIM
 {
-    public class MainViewModel
+    public class MainViewModel : INotifyPropertyChanged
     {
         public MainViewModel()
         {
             Contacts = new ObservableCollection<Contact>();
+            Contacts.CollectionChanged += Contacts_CollectionChanged;
+        }
+
+        void Contacts_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("StatusText"));
         }
 
         public ObservableCollection<Contact> Contacts { get; private set; }
@@ -51,6 +59,16 @@ namespace LocalIM
             
         }
 
+
+
+        public string StatusText
+        {
+            get
+            {
+                return string.Format("{0} Contacts", Contacts.Count);
+            }
+        }
+
         public void GotMessage(string username, string address, string message,Guid guid)
         {
             var contact = FindContact(username, address);
@@ -75,5 +93,7 @@ namespace LocalIM
         {
 
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
