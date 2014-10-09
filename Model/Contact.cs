@@ -58,10 +58,10 @@ namespace LocalIM.Model
                 NotifyContactState();
             }
         }
-
+        
         public string LastActionText
         {
-            get { return string.Format("Last action : {0}", LastAction.ToString("hh:mm:ss")); }
+            get { return string.Format("Last action : {0}", (DateTime.Now - LastAction).ToReadableString()); }
         }
 
         public int MessagesCount
@@ -102,6 +102,7 @@ namespace LocalIM.Model
         {
             if (PropertyChanged != null)
             {
+                PropertyChanged(this, new PropertyChangedEventArgs("LastActionText"));                
                 PropertyChanged(this, new PropertyChangedEventArgs("IsIdle"));
                 PropertyChanged(this, new PropertyChangedEventArgs("IsInActive"));
             }
