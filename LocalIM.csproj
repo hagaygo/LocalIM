@@ -53,6 +53,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\ContactViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Page Include="Chat\ChatWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -81,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Model\Contact.cs" />
     <Compile Include="Model\Message.cs" />
+    <Compile Include="Model\SendNewMessageCommand.cs" />
     <Compile Include="MySender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

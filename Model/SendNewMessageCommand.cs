@@ -1,26 +1,24 @@
-﻿using LocalIM.Chat;
-using LocalIM.Model;
-using LocalIM.ViewModel;
+﻿using LocalIM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace LocalIM.Command
+namespace LocalIM.Model
 {
-    public class ShowChatCommand : ICommand
+    public class SendNewMessageCommand : ICommand
     {
-        ContactViewModel Contact { get; set; }
+        ContactViewModel _contact;
 
-        public ShowChatCommand(ContactViewModel contact)
+        public SendNewMessageCommand(ContactViewModel contact)
         {
-            Contact = contact;
+            _contact = contact;
         }
 
         public bool CanExecute(object parameter)
         {
+            //if (_contact.
             return true;
         }
 
@@ -28,7 +26,7 @@ namespace LocalIM.Command
 
         public void Execute(object parameter)
         {
-            ChatManager.Instance.ShowChatWindow(Contact);
+            
         }
     }
 }

@@ -26,8 +26,8 @@
                 <Button Content="Settings"/>
             </StackPanel>            
             <DockPanel DockPanel.Dock="Left">
-                <TextBlock Text="Online Contacts" Margin="5,5,5,5" DockPanel.Dock="Top"/>                
-                <ListBox ItemsSource="{Binding Contacts}" DockPanel.Dock="Bottom" Background="Transparent">
+                <TextBlock Text="Online Contacts" Margin="5,5,5,5" DockPanel.Dock="Top"/>
+                <ListBox ItemsSource="{Binding ContactViewModels}" DockPanel.Dock="Bottom" Background="Transparent">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -38,8 +38,7 @@
                             <DockPanel Height="30" Background="Transparent">
                                 <DockPanel.InputBindings>
                                     <MouseBinding Command="{Binding ShowContactChatCommand}" MouseAction="LeftDoubleClick"/>
-                                </DockPanel.InputBindings>
-                                <!--<TextBlock Text="{Binding MessagesCount}" ToolTip="Total Messages" Margin="10,0" VerticalAlignment="Center" DockPanel.Dock="Right"/>-->
+                                </DockPanel.InputBindings>                                
                                 <TextBlock Text="{Binding UnreadMessagesCount}" ToolTip="Unread Messages" FontWeight="Bold" Margin="10,0" VerticalAlignment="Center" DockPanel.Dock="Right">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
@@ -51,7 +50,7 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                <TextBlock Text="{Binding Username}" ToolTip="{Binding LastActionText}" VerticalAlignment="Center" DockPanel.Dock="Left">
+                                <TextBlock Text="{Binding Contact.Username}" ToolTip="{Binding LastActionText}" VerticalAlignment="Center" DockPanel.Dock="Left">
                                 <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BasicTextBlock}">
                                             <Style.Triggers>

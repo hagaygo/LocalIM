@@ -31,9 +31,7 @@ namespace LocalIM
             InitListener();
             new Background.BackgroundWorker(ViewModel);
         }
-
-        const string MyUsername = "My User";
-
+        
         MainViewModel ViewModel
         {
             get { return (MainViewModel)DataContext; }

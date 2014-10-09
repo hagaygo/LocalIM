@@ -1,4 +1,5 @@
 ﻿using LocalIM.Model;
+using LocalIM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,14 +24,14 @@ namespace LocalIM.Chat
 
         static ChatManager _instance;
 
-        public void ShowChatWindow(Contact contact)
+        public void ShowChatWindow(ContactViewModel vm)
         {
             lock (typeof(ChatManager))
             {
-                var window = Windows.FirstOrDefault(x => x.Contact == contact);
+                var window = Windows.FirstOrDefault(x => x.ContactViewModel.Contact == vm.Contact);
                 if (window == null)
                 {
-                    window = new ChatWindow(contact) { Owner = App.Current.MainWindow };
+                    window = new ChatWindow(vm) { Owner = App.Current.MainWindow };
                     window.Closed += window_Closed;
                     window.Show();
                     _windows.Add(window);

@@ -1,4 +1,5 @@
 ﻿using LocalIM.Model;
+using LocalIM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,8 +15,8 @@ namespace LocalIM
     {
         public MainViewModel()
         {
-            Contacts = new ObservableCollection<Contact>();
-            Contacts.CollectionChanged += Contacts_CollectionChanged;
+            ContactViewModels = new ObservableCollection<ContactViewModel>();
+            ContactViewModels.CollectionChanged += Contacts_CollectionChanged;
         }
         
         void Contacts_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -24,30 +25,33 @@ namespace LocalIM
                 PropertyChanged(this, new PropertyChangedEventArgs("StatusText"));
         }
 
-        public ObservableCollection<Contact> Contacts { get; private set; }
+        public ObservableCollection<ContactViewModel> ContactViewModels { get; private set; }
         public string UserName { get; set; }
 
         static object _lockObject = new object();
 
-        Contact FindContact(string username, string address)
+        ContactViewModel FindContactViewModel(string username, string address)
         {
-            return Contacts.FirstOrDefault(x => x.Username == username && x.Address == address);
+            return ContactViewModels.FirstOrDefault(x => x.Contact.Username == username && x.Contact.Address == address);
         }
 
         public void CheckNewContact(string username, string address)
         {
             lock (_lockObject)
             {
-                var contact = FindContact(username, address);
+                var contact = FindContactViewModel(username, address);
                 if (contact == null)
                 {
-                    contact = new Contact
-                    {
-                        Address = address,
-                        LastAction = DateTime.Now,                        
+                    contact = new ContactViewModel(
+                        new Contact
+                        {
+                        Address = address,                        
                         Username = username
+                        })
+                    {
+                        LastAction = DateTime.Now
                     };
-                    Contacts.Add(contact);
+                    ContactViewModels.Add(contact);
                 }
                 else
                     contact.LastAction = DateTime.Now;
@@ -65,16 +69,16 @@ namespace LocalIM
         {
             get
             {
-                return string.Format("{0} Contacts", Contacts.Count);
+                return string.Format("{0} Contacts", ContactViewModels.Count);
             }
         }
 
         public void GotMessage(string username, string address, string message,Guid guid)
         {
-            var contact = FindContact(username, address);
-            if (contact != null)
+            var contactViewModel = FindContactViewModel(username, address);
+            if (contactViewModel != null)
             {
-                if (!contact.Messages.Any(x => x.Guid == guid))
+                if (!contactViewModel.Contact.Messages.Any(x => x.Guid == guid))
                 {
                     var m = new IncomingMessage
                     {
@@ -82,7 +86,7 @@ namespace LocalIM
                         Text = message,
                         TimeStamp = DateTime.Now
                     };
-                    contact.AddMessage(m);
+                    contactViewModel.AddMessage(m);
                     
                     // todo : send confirm
                 }

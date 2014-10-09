@@ -23,7 +23,7 @@ namespace LocalIM.Background
             while (Thread.CurrentThread.IsAlive)
             {
                 Thread.Sleep(5000);
-                foreach (var c in _mainViewModel.Contacts)
+                foreach (var c in _mainViewModel.ContactViewModels)
                 {
                     c.CheckActivity();
                 }                

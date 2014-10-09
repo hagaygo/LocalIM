@@ -1,4 +1,5 @@
 ﻿using LocalIM.Model;
+using LocalIM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,12 @@ namespace LocalIM.Chat
     /// </summary>
     public partial class ChatWindow : Window
     {
-        public Contact Contact { get; private set; }
+        public ContactViewModel ContactViewModel { get; private set; }
 
-        public ChatWindow(Contact contact)
+        public ChatWindow(ContactViewModel contact)
         {
             InitializeComponent();
-            Contact = contact;
+            ContactViewModel = contact;
             DataContext = contact;            
         }
 
