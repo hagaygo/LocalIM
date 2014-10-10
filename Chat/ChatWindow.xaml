@@ -11,7 +11,7 @@
         <TextBlock Text="{Binding Contact.Username}" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
         <DockPanel DockPanel.Dock="Bottom">            
             <Button Content="Send" DockPanel.Dock="Right" Command="{Binding SendNewMessage}"/>
-            <TextBox DockPanel.Dock="Left" Text="{Binding NewMessageText,Mode=TwoWay}"/>
+            <TextBox DockPanel.Dock="Left" Text="{Binding NewMessageText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
         </DockPanel>
         <ListBox ItemsSource="{Binding Contact.Messages}">
             <ListBox.Background>

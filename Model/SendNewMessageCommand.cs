@@ -9,16 +9,28 @@ namespace LocalIM.Model
 {
     public class SendNewMessageCommand : ICommand
     {
-        ContactViewModel _contact;
+        ContactViewModel _contactViewModel;
 
-        public SendNewMessageCommand(ContactViewModel contact)
+        public SendNewMessageCommand(ContactViewModel contactVM)
         {
-            _contact = contact;
+            _contactViewModel = contactVM;
+            _contactViewModel.PropertyChanged += ContactViewModel_PropertyChanged;
+        }
+
+        void ContactViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {                
+                case "NewMessageText":
+                    CanExecuteChanged(this,EventArgs.Empty);
+                    break;
+            }
         }
 
         public bool CanExecute(object parameter)
         {
-            //if (_contact.
+            if (string.IsNullOrEmpty(_contactViewModel.NewMessageText))
+                return false;
             return true;
         }
 
@@ -26,7 +38,10 @@ namespace LocalIM.Model
 
         public void Execute(object parameter)
         {
-            
+            var m = new OutgoingMessage();
+            m.Guid = Guid.NewGuid();
+            m.Text = _contactViewModel.NewMessageText;
+            _contactViewModel.AddMessage(m);
         }
     }
 }

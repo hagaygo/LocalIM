@@ -128,7 +128,8 @@ namespace LocalIM.ViewModel
         public void AddMessage(Message m)
         {
             Contact.Messages.Add(m);
-            LastAction = DateTime.Now;            
+            if (m is IncomingMessage)
+                LastAction = DateTime.Now;            
         }
 
         public string LastActionText
