@@ -8,12 +8,12 @@
             <Button Content="X" DockPanel.Dock="Right" Click="CloseWindow"/>
             <TextBlock Text="Chat Window" HorizontalAlignment="Center" DockPanel.Dock="Left"/>
         </DockPanel>
-        <TextBlock Text="{Binding Username}" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
+        <TextBlock Text="{Binding Contact.Username}" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
         <DockPanel DockPanel.Dock="Bottom">            
             <Button Content="Send" DockPanel.Dock="Right" Command="{Binding SendNewMessage}"/>
             <TextBox DockPanel.Dock="Left" Text="{Binding NewMessageText,Mode=TwoWay}"/>
         </DockPanel>
-        <ListBox ItemsSource="{Binding Messages}">
+        <ListBox ItemsSource="{Binding Contact.Messages}">
             <ListBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>

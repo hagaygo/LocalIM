@@ -38,7 +38,7 @@
                             <DockPanel Height="30" Background="Transparent">
                                 <DockPanel.InputBindings>
                                     <MouseBinding Command="{Binding ShowContactChatCommand}" MouseAction="LeftDoubleClick"/>
-                                </DockPanel.InputBindings>                                
+                                </DockPanel.InputBindings>
                                 <TextBlock Text="{Binding UnreadMessagesCount}" ToolTip="Unread Messages" FontWeight="Bold" Margin="10,0" VerticalAlignment="Center" DockPanel.Dock="Right">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">

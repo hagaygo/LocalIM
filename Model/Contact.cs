@@ -14,13 +14,13 @@ namespace LocalIM.Model
     {
         public Contact()
         {
-            Messages = new List<Message>();            
-        }
+            Messages = new ObservableCollection<Message>();            
+        }        
 
         public string Username { get; set; }
         public string Address { get; set; }
-                
-        public List<Message> Messages { get; private set;}
+
+        public ObservableCollection<Message> Messages { get; private set; }
         
         public int MessagesCount
         {

@@ -16,12 +16,47 @@ namespace LocalIM.ViewModel
         public ContactViewModel(Contact c)
         {
             Contact = c;
+            c.Messages.CollectionChanged += Messages_CollectionChanged;
             ShowContactChatCommand = new ShowChatCommand(this);
             SendNewMessage = new SendNewMessageCommand(this);
         }
 
+        void Messages_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            NotifyPropertyChanged("Messages");
+            NotifyPropertyChanged("MessagesCount");
+            foreach (Message m in e.NewItems)
+            {
+                if (m is IncomingMessage && !((IncomingMessage)m).IsRead)
+                {
+                    NotifyPropertyChanged("UnreadMessagesCount");
+                    return;
+                }
+            }
+        }
+
+        public int UnreadMessagesCount
+        {
+            get { return Contact.UnreadMessagesCount; }
+        }
+
         public ICommand ShowContactChatCommand { get; private set; }
         public ICommand SendNewMessage { get; private set; }
+
+        string _newMessageText;
+
+        public string NewMessageText
+        {
+            get { return _newMessageText; }
+            set
+            {
+                if (value != _newMessageText)
+                {
+                    _newMessageText = value;
+                    NotifyPropertyChanged("NewMessageText");
+                }
+            }
+        }
 
         public void CheckActivity()
         {
@@ -93,11 +128,7 @@ namespace LocalIM.ViewModel
         public void AddMessage(Message m)
         {
             Contact.Messages.Add(m);
-            LastAction = DateTime.Now;
-            NotifyPropertyChanged("Messages");
-            NotifyPropertyChanged("MessagesCount");
-            if (m is IncomingMessage && !((IncomingMessage)m).IsRead)
-                NotifyPropertyChanged("UnreadMessagesCount");            
+            LastAction = DateTime.Now;            
         }
 
         public string LastActionText
